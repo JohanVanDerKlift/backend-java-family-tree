@@ -43,14 +43,20 @@ public class Person {
 
     public void addChild(Person child) {
         children.add(child);
+        child.addParents(this);
+        child.addParents(this.getPartner());
     }
 
     public void addPet(Pet pet) {
         pets.add(pet);
+        pet.setOwner(this);
     }
 
     public void addSiblings(Person sibling) {
         siblings.add(sibling);
+        if (!sibling.getSiblings().contains(this)) {
+            sibling.addSiblings(this);
+        }
     }
 
     public List<Person> getGrandChildren() {
@@ -177,5 +183,8 @@ public class Person {
 
     public void setPartner(Person partner) {
         this.partner = partner;
+        if (partner.getPartner() != this) {
+            partner.setPartner(this.partner);
+        }
     }
 }
